@@ -1,0 +1,25 @@
+services:
+  # 🗄️ Database service
+  db:  
+    image: postgres:latest  # 🐘 Usando a imagem mais recente do PostgreSQL
+    container_name: vidinine-database  # 📛 Nome do container
+    environment:  # 🌱 Variáveis de ambiente para o PostgreSQL
+      POSTGRES_USER: ${DB_USER}  # 👤 Nome de usuário do PostgreSQL
+      POSTGRES_PASSWORD: ${DB_PASSWORD}  # 🔑 Senha do PostgreSQL
+      POSTGRES_DB: ${DB_NAME}  # 📂 Nome do banco de dados do PostgreSQL
+    env_file:
+      - .env  # 🌍 Carregando variáveis de ambiente de um arquivo
+    ports:
+      - "5432:5432"  # 🌐 Expondo o PostgreSQL na porta 5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # 💾 Persistindo os dados do banco de dados
+    networks:
+      - vidinine-network  # 🔗 Conectando à rede personalizada
+    restart: unless-stopped  # 🔄 Reiniciar automaticamente, a menos que seja parado manualmente
+
+volumes:
+  postgres_data:  # 💾 Volume para persistir os dados do PostgreSQL
+
+networks:
+  vidinine-network:  # 🔗 Rede personalizada para comunicação entre serviços
+    driver: bridge
