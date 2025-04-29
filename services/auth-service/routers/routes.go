@@ -10,7 +10,9 @@ func SetupRouter() *gin.Engine {
 
 	api := r.Group("/api/v1")
 	{
+		api.GET("/", controllers.HomeHandler)
 		api.GET("/register", controllers.RegisterHandler)
+		api.POST("/login", controllers.LoginHandler)
 	}
 	return r
 }
