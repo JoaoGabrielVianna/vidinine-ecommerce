@@ -4,10 +4,12 @@ import (
 	"path/filepath"
 
 	"github.com/joho/godotenv"
+	"gorm.io/gorm"
 )
 
 var (
 	logger *Logger
+	DB     *gorm.DB
 )
 
 func LoadEnv(baseDir string) error {
