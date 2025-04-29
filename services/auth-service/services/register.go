@@ -14,6 +14,13 @@ func RegisterUser(user *models.User) error {
 		return err
 	}
 
+	// Criptografar a senha
+	hashedPassword, err := utils.HashPassword(user.Password)
+	if err != nil {
+		return nil
+	}
+	user.Password = hashedPassword
+
 	if err := config.DB.Create(user).Error; err != nil {
 		serviceLogger.Errorf("Erro ao registrar: %v", err)
 		return err
