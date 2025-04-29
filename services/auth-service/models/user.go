@@ -9,7 +9,7 @@ type User struct {
 	// 🗑️ DeletedAt.
 	gorm.Model
 
-	Name     string `json:"name" gorm:"not null"`         // 📝 Name of the user
-	Email    string `json:"email" gorm:"not null;unique"` // 📧 Email of the user
-	Password string `json:"password" gorm:"not null"`     // 🔒 Password of the user
+	Name     string `json:"name" gorm:"not null"`              // 📝 Name of the user
+	Email    string `json:"email" gorm:"not null;unique"`      // 📧 Email of the user
+	Password string `json:"password" gorm:"not null;size:255"` // 🔒 Password of the user
 }
