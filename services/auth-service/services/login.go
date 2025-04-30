@@ -19,12 +19,14 @@ func Login(email, password string) (string, error) {
 
 	if err := config.DB.Where("email = ?", email).First(&user).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
+			serviceLogger.Error("Usuário não encontrado no banco de dados")
 			return "", ErrUserNotFound
 		}
 		return "", err
 	}
 
 	if !utils.CheckPasswordHash(password, user.Password) {
+		serviceLogger.Error("Senha incorreta fornecida pelo usuário")
 		return "", ErrWrongPassword
 	}
 
@@ -33,5 +35,6 @@ func Login(email, password string) (string, error) {
 		return "", err
 	}
 
+	serviceLogger.Success("Login realizado com sucesso")
 	return token, nil
 }
