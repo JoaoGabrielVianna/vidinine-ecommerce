@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/vidinine-ecommerce/aut-service/models"
 	"github.com/vidinine-ecommerce/aut-service/services"
+	"github.com/vidinine-ecommerce/aut-service/utils"
 )
 
 func RegisterHandler(c *gin.Context) {
@@ -23,6 +24,14 @@ func RegisterHandler(c *gin.Context) {
 		return
 	}
 
+	token, err := utils.GenerateToken(user.ID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao gerar token"})
+		controllerLogger.Errorf("Erro ao gerar token: %v", err)
+		return
+	}
+	c.Header("Authorization", "Bearer "+token)
+
 	response := gin.H{
 		"msg":    "Usuário registrado com sucesso",
 		"status": http.StatusCreated,
@@ -32,6 +41,10 @@ func RegisterHandler(c *gin.Context) {
 			"email":      user.Email,
 			"password":   user.Password,
 			"created_at": user.CreatedAt,
+		},
+		"token": gin.H{
+			"access_token": token,
+			"token_type":   "Bearer",
 		},
 	}
 
