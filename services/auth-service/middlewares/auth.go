@@ -27,6 +27,9 @@ func AuthMiddleware() gin.HandlerFunc {
 		// 4. Adicionar o userID ao contexto do Gin
 		c.Set("userID", claims.UserID)
 
+		// Adicione isto após validar o token:
+		c.Set("userRole", claims.Role)
+
 		// 5. Continuar para o próximo handler
 		c.Next()
 	}
