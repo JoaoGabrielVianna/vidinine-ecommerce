@@ -5,20 +5,23 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/vidinine-ecommerce/auth-service/models"
 )
 
 var JWTSecret = []byte(os.Getenv("JWT_SECRET"))
 
 type Claims struct {
-	UserID uint `json:"user_id"`
+	UserID uint        `json:"user_id"`
+	Role   models.Role `json:"role"`
 	jwt.RegisteredClaims
 }
 
-func GenerateToken(userID uint) (string, error) {
+func GenerateToken(userID uint, role models.Role) (string, error) {
 	expiresAt := time.Now().Add(24 * time.Hour)
 
 	claims := &Claims{
 		UserID: userID,
+		Role:   role,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(expiresAt),
 		},
