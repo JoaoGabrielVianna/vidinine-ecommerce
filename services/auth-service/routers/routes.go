@@ -2,8 +2,8 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/vidinine-ecommerce/aut-service/controllers"
-	"github.com/vidinine-ecommerce/aut-service/middlewares"
+	"github.com/vidinine-ecommerce/auth-service/controllers"
+	"github.com/vidinine-ecommerce/auth-service/middlewares"
 )
 
 func SetupRouter() *gin.Engine {
@@ -21,6 +21,7 @@ func SetupRouter() *gin.Engine {
 		{
 			protected.GET("/profile", controllers.ProfileHandler)
 			protected.GET("/home", controllers.HomeHandler)
+			protected.DELETE("/delete", controllers.DeleteHandler)
 		}
 	}
 	return r

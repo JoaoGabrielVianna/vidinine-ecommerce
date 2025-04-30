@@ -5,7 +5,7 @@ import (
 	"strings" // Ajuste o caminho conforme sua estrutura
 
 	"github.com/gin-gonic/gin"
-	"github.com/vidinine-ecommerce/aut-service/utils"
+	"github.com/vidinine-ecommerce/auth-service/utils"
 )
 
 func AuthMiddleware() gin.HandlerFunc {

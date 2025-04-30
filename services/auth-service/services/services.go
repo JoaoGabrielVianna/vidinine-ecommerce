@@ -2,7 +2,7 @@
 package services
 
 import (
-	"github.com/vidinine-ecommerce/aut-service/config"
+	"github.com/vidinine-ecommerce/auth-service/config"
 )
 
 var (

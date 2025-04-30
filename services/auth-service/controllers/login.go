@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/vidinine-ecommerce/aut-service/services"
+	"github.com/vidinine-ecommerce/auth-service/services"
 )
 
 func LoginHandler(c *gin.Context) {

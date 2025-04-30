@@ -4,9 +4,9 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/vidinine-ecommerce/aut-service/models"
-	"github.com/vidinine-ecommerce/aut-service/services"
-	"github.com/vidinine-ecommerce/aut-service/utils"
+	"github.com/vidinine-ecommerce/auth-service/models"
+	"github.com/vidinine-ecommerce/auth-service/services"
+	"github.com/vidinine-ecommerce/auth-service/utils"
 )
 
 func RegisterHandler(c *gin.Context) {

@@ -1,9 +1,9 @@
 package services
 
 import (
-	"github.com/vidinine-ecommerce/aut-service/config"
-	"github.com/vidinine-ecommerce/aut-service/models"
-	"github.com/vidinine-ecommerce/aut-service/utils"
+	"github.com/vidinine-ecommerce/auth-service/config"
+	"github.com/vidinine-ecommerce/auth-service/models"
+	"github.com/vidinine-ecommerce/auth-service/utils"
 )
 
 func RegisterUser(user *models.User) error {

@@ -1,4 +1,4 @@
-module github.com/vidinine-ecommerce/aut-service
+module github.com/vidinine-ecommerce/auth-service
 
 go 1.24.2
 
