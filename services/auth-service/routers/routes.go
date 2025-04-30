@@ -20,9 +20,14 @@ func SetupRouter() *gin.Engine {
 		protected.Use(middlewares.AuthMiddleware())
 		{
 			protected.GET("/profile", controllers.ProfileHandler)
-			protected.GET("/home", controllers.HomeHandler)
 			protected.DELETE("/delete", controllers.DeleteHandler)
 			protected.PUT("/update", controllers.UpdateHandler)
+		}
+
+		admin := api.Group("/admin")
+		admin.Use(middlewares.AuthMiddleware(), middlewares.AdminMiddleware())
+		{
+			admin.GET("/users", controllers.GetUsers)
 		}
 	}
 	return r
