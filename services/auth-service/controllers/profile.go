@@ -29,5 +29,6 @@ func ProfileHandler(c *gin.Context) {
 		"name":       user.Name,
 		"email":      user.Email,
 		"created_at": user.CreatedAt,
+		"role":       user.Role,
 	})
 }
