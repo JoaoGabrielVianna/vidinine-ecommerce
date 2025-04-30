@@ -30,7 +30,7 @@ func Login(email, password string) (string, error) {
 		return "", ErrWrongPassword
 	}
 
-	token, err := utils.GenerateToken(user.ID)
+	token, err := utils.GenerateToken(user.ID, user.Role)
 	if err != nil {
 		return "", err
 	}
