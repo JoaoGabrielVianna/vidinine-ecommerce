@@ -1,40 +1,32 @@
 package config
 
 import (
-	"path/filepath"
-
-	"github.com/joho/godotenv"
 	"gorm.io/gorm"
 )
 
 var (
-	logger *Logger
-	DB     *gorm.DB
+	logger       *Logger
+	DB           *gorm.DB
+	configLogger = GetLogger("config")
 )
 
-func LoadEnv(baseDir string) error {
-	configLogger := GetLogger("ENV")
-
-	absPath, err := filepath.Abs(baseDir)
-	if err != nil {
-		configLogger.Errorf("Erro ao resolver caminho: %v", err)
-		return nil
-	}
-
-	envPath := filepath.Join(absPath, ".env")
-	configLogger.Logf("Buscando .env em: %s", envPath)
-
-	if err := godotenv.Load(envPath); err != nil {
-		configLogger.Errorf("Falha ao carregar .env: %v", err)
-		configLogger.Errorf("arquivo .env não encontrado em %s", envPath)
-		return nil
-	}
-
-	configLogger.Success("Variáveis de ambiente carregadas")
-	return nil
-}
-
-func GetLogger(p string) *Logger {
-	logger = NewLogger(p)
-	return logger
+// Init inicializa as configurações do serviço de autenticação. 🚀✨
+//
+// Esta função realiza as seguintes etapas:
+//
+// 1. Exibe uma mensagem de log indicando o início das configurações. 🛠️
+//
+// 2. Conecta ao banco de dados utilizando a função ConnectDB. 🗄️
+//
+// 3. Verifica o estado do banco de dados com a função checkDatabase. ✅
+//
+// 4. Exibe uma mensagem de sucesso ao concluir as configurações. 🎉
+//
+// É essencial chamar esta função no início da aplicação para garantir que
+// todas as dependências e configurações estejam prontas para uso. 💡
+func Init() {
+	configLogger.Log("Iniciando configurações...")
+	ConnectDB()
+	checkDatabase()
+	configLogger.Success("Configuração completa!")
 }

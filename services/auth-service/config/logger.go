@@ -32,6 +32,19 @@ func NewLogger(p string) *Logger {
 	}
 }
 
+// GetLogger retorna uma instância de Logger configurada com o caminho especificado.
+// 🛠️ Esta função cria um novo logger utilizando o parâmetro fornecido.
+//
+// Parâmetros:
+//   - p: string que representa o caminho ou prefixo para configuração do logger.
+//
+// Retorna:
+//   - *Logger: uma instância configurada do logger.
+func GetLogger(p string) *Logger {
+	logger = NewLogger(p)
+	return logger
+}
+
 // Success registra uma mensagem de sucesso ✅.
 func (l *Logger) Success(v ...interface{}) {
 	l.successLogger.Println(v...)
