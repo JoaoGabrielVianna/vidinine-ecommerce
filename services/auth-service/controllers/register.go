@@ -24,7 +24,7 @@ func RegisterHandler(c *gin.Context) {
 		return
 	}
 
-	token, err := utils.GenerateToken(user.ID)
+	token, err := utils.GenerateToken(user.ID, user.Role)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao gerar token"})
 		controllerLogger.Errorf("Erro ao gerar token: %v", err)
@@ -41,11 +41,9 @@ func RegisterHandler(c *gin.Context) {
 			"email":      user.Email,
 			"password":   user.Password,
 			"created_at": user.CreatedAt,
+			"role":       user.Role,
 		},
-		"token": gin.H{
-			"access_token": token,
-			"token_type":   "Bearer",
-		},
+		"token": "Bearer " + token,
 	}
 
 	c.JSON(http.StatusCreated, response)
