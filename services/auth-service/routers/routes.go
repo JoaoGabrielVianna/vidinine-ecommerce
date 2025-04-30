@@ -3,6 +3,7 @@ package routers
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/vidinine-ecommerce/aut-service/controllers"
+	"github.com/vidinine-ecommerce/aut-service/middlewares"
 )
 
 func SetupRouter() *gin.Engine {
@@ -10,9 +11,17 @@ func SetupRouter() *gin.Engine {
 
 	api := r.Group("/api/v1")
 	{
-		api.GET("/", controllers.HomeHandler)
+
 		api.GET("/register", controllers.RegisterHandler)
 		api.POST("/login", controllers.LoginHandler)
+
+		// Rotas protegidas
+		protected := api.Group("/")
+		protected.Use(middlewares.AuthMiddleware())
+		{
+			protected.GET("/profile", controllers.ProfileHandler)
+			protected.GET("/home", controllers.HomeHandler)
+		}
 	}
 	return r
 }
