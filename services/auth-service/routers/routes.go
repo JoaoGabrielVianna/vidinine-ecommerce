@@ -22,6 +22,7 @@ func SetupRouter() *gin.Engine {
 			protected.GET("/profile", controllers.ProfileHandler)
 			protected.GET("/home", controllers.HomeHandler)
 			protected.DELETE("/delete", controllers.DeleteHandler)
+			protected.PUT("/update", controllers.UpdateHandler)
 		}
 	}
 	return r
