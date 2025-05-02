@@ -5,6 +5,7 @@ import (
 
 	"github.com/vidinine-ecommerce/auth-service/config"
 	"github.com/vidinine-ecommerce/auth-service/models"
+	"github.com/vidinine-ecommerce/auth-service/utils"
 )
 
 func UpdateUser(userID uint, input models.UpdateUser) (*models.User, error) {
@@ -29,6 +30,14 @@ func UpdateUser(userID uint, input models.UpdateUser) (*models.User, error) {
 	}
 	if input.Email != "" {
 		updates["email"] = input.Email
+	}
+	if input.Password != "" {
+		// Criptografar a senha
+		hashedPassword, err := utils.HashPassword(input.Password)
+		if err != nil {
+			serviceLogger.Error("Erro ao criptografar a senha")
+		}
+		updates["password"] = hashedPassword
 	}
 
 	if err := config.DB.Model(&user).Updates(updates).Error; err != nil {

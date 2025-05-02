@@ -16,8 +16,9 @@ type User struct {
 }
 
 type UpdateUser struct {
-	Name  string `json:"name" binding:"omitempty,min=2"`  // Obrigatório se enviado
-	Email string `json:"email" binding:"omitempty,email"` // Valida formato de email
+	Name     string `json:"name" binding:"omitempty,min=2"`     // Obrigatório se enviado
+	Email    string `json:"email" binding:"omitempty,email"`    // Valida formato de email
+	Password string `json:"password" binding:"omitempty,min=6"` // Valida tamanho mínimo da senha
 }
 
 type Role string
