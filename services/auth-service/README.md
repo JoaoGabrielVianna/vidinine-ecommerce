@@ -43,17 +43,16 @@ flowchart TD
     classDef external fill:#ffc107,stroke:#ffffff,stroke-width:2px,color:#000;
 
 ```
-
 ## Endpoints
 
-| ID | Função       | Método  | Endpoint         | Descrição                                                                 | Requisito       |
-|----|--------------|---------|------------------|---------------------------------------------------------------------------|-----------------|
-| 1  | 📝 Cadastro  | POST    | `/register`      | Registra um novo usuário no sistema.                                      | ❌ Nenhum       |
-| 2  | 🔐 Login     | POST    | `/login`         | Realiza o login do usuário e retorna um **token JWT** para autenticação.  | ❌ Nenhum       |
-| 3  | 👤 Perfil    | GET     | `/profile`       | Retorna as informações do perfil do usuário.                              | ✅ **JWT Token** |
-| 4  | ✏️ Editar    | POST    | `/update`     | Atualiza os dados de um usuário com base no id fornecido.                 | ✅ **JWT Token** |
-| 5  | 🗑️ Deletar   | DELETE  | `/delete`   | Remove o usuário identificado pelo id do sistema.                         | ✅ **JWT Token** |
-
+| ID | Função               | Método  | Endpoint         | Descrição                                                                 | Requisito                     |
+|----|----------------------|---------|------------------|---------------------------------------------------------------------------|-------------------------------|
+| 1  | 📝 Cadastro          | POST    | `/register`      | Registra um novo usuário no sistema.                                      | ❌ Nenhum                     |
+| 2  | 🔐 Login             | POST    | `/login`         | Realiza o login do usuário e retorna um **token JWT** para autenticação.  | ❌ Nenhum                     |
+| 3  | 👤 Perfil            | GET     | `/profile`       | Retorna as informações do perfil do usuário.                              | ✅ **JWT Token**              |
+| 4  | ✏️ Editar            | POST    | `/update`        | Atualiza os dados de um usuário com base no id fornecido.                 | ✅ **JWT Token**              |
+| 5  | 🗑️ Deletar           | DELETE  | `/delete`        | Remove o usuário identificado pelo id do sistema.                         | ✅ **JWT Token**              |
+| 6  | 📋 Listar Usuários   | GET     | `/admin/users`   | Retorna uma lista de todos os usuários cadastrados no sistema.            | ✅ **JWT Token + Role: admin** |
 
 ## 🗃️ Tabelas do Banco de Dados
 
@@ -68,3 +67,4 @@ flowchart TD
 | 📝 Name     | string | `gorm:"not null"`                 | Nome do usuário               |
 | 📧 Email    | string | `gorm:"not null;unique"`          | Email do usuário              |
 | 🔒 Password | string | `gorm:"not null;size:255"`        | Senha do usuário              |
+|Role| string|||
