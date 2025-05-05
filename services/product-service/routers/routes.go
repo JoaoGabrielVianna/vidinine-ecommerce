@@ -6,25 +6,32 @@ import (
 	"github.com/vidinine-ecommerce/product-service/middlewares"
 )
 
-func SetupRouter() *gin.Engine {
-	r := gin.Default()
+func SetupRouter(r *gin.Engine) *gin.Engine {
 
 	api := r.Group("/api/v1")
 	{
-		api.GET("/", func(ctx *gin.Context) {
-			ctx.JSON(200, gin.H{
-				"message": "Welcome to the API",
-			})
-		})
-
-		// Rotas protegidas
-		protected := api.Group("/")
-		protected.Use(middlewares.AuthMiddleware())
-
-		admin := api.Group("/admin")
-		admin.Use(middlewares.AuthMiddleware(), middlewares.AdminMiddleware())
+		// 🌐 Rotas públicas
+		publicRoutes := api.Group("/products")
 		{
-			admin.POST("/products", controllers.CreateProduct)
+			// 📋 Listar produtos
+			publicRoutes.GET("/list", controllers.ListPublicProductsHandler)
+		}
+
+		// 🔒 Rotas protegidas (usuário autenticado)
+		protectedRoutes := api.Group("/")
+		protectedRoutes.Use(middlewares.AuthMiddleware())
+		{
+			// 🚧 Adicione rotas protegidas aqui
+		}
+
+		// 🛠️ Rotas administrativas
+		adminRoutes := api.Group("/management/products")
+		adminRoutes.Use(middlewares.AuthMiddleware(), middlewares.AdminMiddleware())
+		{
+			// ➕ Criar produto
+			adminRoutes.POST("/create", controllers.CreateProduct)
+			// 📋 Listar produtos (admin)
+			adminRoutes.GET("/list", controllers.ListProductsHandler)
 		}
 	}
 
