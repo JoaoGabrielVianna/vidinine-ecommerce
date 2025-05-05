@@ -2,7 +2,7 @@ package middlewares
 
 import (
 	"net/http"
-	"strings" // Ajuste o caminho conforme sua estrutura
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/vidinine-ecommerce/product-service/utils"
@@ -12,6 +12,7 @@ func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" {
+			middlewaresLogger.Error("Cabeçalho de autorização está ausente")
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Token não fornecido"})
 			return
 		}
@@ -19,18 +20,19 @@ func AuthMiddleware() gin.HandlerFunc {
 		tokenString := strings.TrimPrefix(authHeader, "Bearer ")
 		claims, err := utils.ParseToken(tokenString)
 		if err != nil {
-
+			middlewaresLogger.Error("Falha ao analisar o token: " + err.Error())
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Token inválido"})
 			return
 		}
 
-		// 4. Adicionar o userID ao contexto do Gin
+		// Adicionar o userID ao contexto do Gin
 		c.Set("userID", claims.UserID)
 
-		// Adicione isto após validar o token:
+		// Adicionar o userRole ao contexto do Gin após validar o token
 		c.Set("userRole", claims.Role)
 
-		// 5. Continuar para o próximo handler
+		// Continuar para o próximo handler
+		middlewaresLogger.Successf("Token validado com sucesso para userID: %d, role: %s", claims.UserID, claims.Role)
 		c.Next()
 	}
 }
