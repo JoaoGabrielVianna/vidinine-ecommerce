@@ -45,5 +45,5 @@ func Init() {
 	systemlogger.System("🌐 Configurando rotas HTTP...\n")
 
 	systemlogger.Systemf("✅ SISTEMA PRONTO | Porta: :%s | Tempo: %v", os.Getenv("PRODUCT_SERVICE_PORT"), time.Since(startTime).Round(time.Millisecond))
-	systemlogger.Systemf("🕒 Iniciado em: %s", startTime.Format("02/01/2006 15:04:05"))
+	systemlogger.Systemf("🕒 Iniciado em: %s\n\n", startTime.Format("02/01/2006 15:04:05"))
 }
