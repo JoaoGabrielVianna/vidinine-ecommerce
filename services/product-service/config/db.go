@@ -7,6 +7,7 @@ import (
 	"github.com/vidinine-ecommerce/product-service/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	l "gorm.io/gorm/logger"
 )
 
 // ConnectDB 🔌
@@ -29,7 +30,9 @@ func ConnectDB() error {
 	)
 
 	// Tenta abrir a conexão com o banco de dados 🚀
-	db, err := gorm.Open(postgres.Open(dns), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open(dns), &gorm.Config{
+		Logger: l.Default.LogMode(l.Silent), // Configuração correta para GORM v2
+	})
 	if err != nil {
 		dblogger.Errorf("❌ Erro ao conectar ao banco de dados: %v", err)
 		return err
