@@ -1,14 +1,18 @@
 package main
 
 import (
+	"github.com/gin-gonic/gin"
 	"github.com/vidinine-ecommerce/product-service/config"
 	"github.com/vidinine-ecommerce/product-service/routers"
 )
 
 func main() {
 	config.Init()
+	gin.SetMode(gin.ReleaseMode)
+	gin.DisableConsoleColor()
 
+	r := gin.New()
 	// Rotas
-	r := routers.SetupRouter()
+	routers.SetupRouter(r)
 	r.Run(":3001")
 }
