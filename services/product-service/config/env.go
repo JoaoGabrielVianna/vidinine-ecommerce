@@ -24,6 +24,6 @@ func LoadEnv(baseDir string) error {
 		return nil
 	}
 
-	configLogger.Success("Variáveis de ambiente carregadas")
+	configLogger.Success("Variáveis de ambiente carregadas\n")
 	return nil
 }

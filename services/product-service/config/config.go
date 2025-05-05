@@ -1,13 +1,19 @@
 package config
 
 import (
+	"os"
+	"time"
+
 	"gorm.io/gorm"
 )
 
 var (
 	logger       *Logger
 	DB           *gorm.DB
-	configLogger = GetLogger("config")
+	configLogger = GetLogger("CONFIG")
+	systemlogger = GetLogger("SYSTEM")
+
+	startTime = time.Now()
 )
 
 // Init inicializa as configurações do serviço de autenticação. 🚀✨
@@ -25,8 +31,19 @@ var (
 // É essencial chamar esta função no início da aplicação para garantir que
 // todas as dependências e configurações estejam prontas para uso. 💡
 func Init() {
-	configLogger.Log("Iniciando configurações...")
+	ShowWelcomeBanner()
+
+	systemlogger.System("🔧 ETAPA 1: CONFIGURAÇÕES INICIAIS")
+	LoadEnv("../..")
+
+	systemlogger.System("🔌 ETAPA 2: CONEXÕES EXTERNAS")
+	systemlogger.System("🛢️ Conectando ao banco de dados...")
 	ConnectDB()
 	checkDatabase()
-	configLogger.Success("Configuração completa!")
+
+	systemlogger.System("🚀 ETAPA 3: INICIALIZANDO SERVIÇOS")
+	systemlogger.System("🌐 Configurando rotas HTTP...\n")
+
+	systemlogger.Systemf("✅ SISTEMA PRONTO | Porta: :%s | Tempo: %v", os.Getenv("PRODUCT_SERVICE_PORT"), time.Since(startTime).Round(time.Millisecond))
+	systemlogger.Systemf("🕒 Iniciado em: %s", startTime.Format("02/01/2006 15:04:05"))
 }

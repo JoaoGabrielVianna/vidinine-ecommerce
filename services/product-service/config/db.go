@@ -16,9 +16,6 @@ import (
 func ConnectDB() error {
 	dblogger := GetLogger("Database")
 
-	// Carrega as variáveis de ambiente 🌱
-	LoadEnv("../..")
-
 	dblogger.Log("🔄 Iniciando conexão com o banco de dados...")
 
 	// Configura a string de conexão com o banco de dados 🛠️
@@ -40,7 +37,7 @@ func ConnectDB() error {
 
 	// Define a variável global DB 🌍
 	DB = db
-	dblogger.Successf("✅ Conexão com o banco de dados estabelecida com sucesso: %s", os.Getenv("DB_NAME"))
+	dblogger.Successf("✅ Conexão estabelecida: %s", os.Getenv("DB_NAME"))
 	return nil
 }
 
@@ -58,8 +55,8 @@ func checkDatabase() {
 			return
 		}
 
-		configLogger.Success("✅ Tabela 'products' criada com sucesso")
+		configLogger.Success("✅ Tabela 'products' criada com sucesso\n")
 	} else {
-		configLogger.Success("✅ Tabela 'products' encontrada e validada")
+		configLogger.Success("✅ Tabela 'products' encontrada e validada\n")
 	}
 }
