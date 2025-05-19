@@ -10,8 +10,8 @@ import (
 )
 
 var (
-	ErrUserNotFound  = errors.New("User not found")
-	ErrWrongPassword = errors.New("Incorrect password")
+	ErrUserNotFound  = errors.New("user not found")
+	ErrWrongPassword = errors.New("incorrect password")
 )
 
 func Login(email, password string) (string, error) {
