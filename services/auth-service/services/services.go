@@ -6,5 +6,5 @@ import (
 )
 
 var (
-	serviceLogger = config.GetLogger("service")
+	serviceLogger = config.GetLogger("SERVICE")
 )
