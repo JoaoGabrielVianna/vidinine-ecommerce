@@ -11,28 +11,37 @@ import (
 func UpdateHandler(c *gin.Context) {
 	userID, exists := c.Get("userID")
 	if !exists {
-		controllerLogger.Error("Usuário não autenticado")
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Usuário não autenticado"})
+		controllerLogger.Error("User not authenticated")
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error":   "unauthenticated",
+			"message": "User not authenticated",
+		})
 		return
 	}
 
 	var input models.UpdateUser
 	if err := c.ShouldBindJSON(&input); err != nil {
-		controllerLogger.Error("Erro ao validar dados do usuário: " + err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Dados inválidos: " + err.Error()})
+		controllerLogger.Errorf("Invalid user data: %v", err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "invalid_data",
+			"message": "Invalid user data: " + err.Error(),
+		})
 		return
 	}
 
 	updatedUser, err := services.UpdateUser(userID.(uint), input)
 	if err != nil {
-		controllerLogger.Error("Erro ao atualizar usuário: " + err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		controllerLogger.Errorf("Failed to update user: %v", err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "update_failed",
+			"message": err.Error(),
+		})
 		return
 	}
 
-	controllerLogger.Success("Usuário atualizado com sucesso")
+	controllerLogger.Successf("User updated successfully (ID: %d)", updatedUser.ID)
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Usuário atualizado com sucesso",
+		"message": "User updated successfully",
 		"data": gin.H{
 			"id":    updatedUser.ID,
 			"name":  updatedUser.Name,
