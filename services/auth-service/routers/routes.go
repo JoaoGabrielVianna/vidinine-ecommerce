@@ -14,6 +14,7 @@ func SetupRouter(r *gin.Engine) *gin.Engine {
 
 		api.GET("/register", controllers.RegisterHandler)
 		api.POST("/login", controllers.LoginHandler)
+		api.GET("/validate", controllers.ValidateTokenHandle) // 🔥 aqui!
 
 		// Rotas protegidas
 		protected := api.Group("/")
