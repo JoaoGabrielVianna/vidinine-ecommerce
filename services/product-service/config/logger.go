@@ -10,15 +10,15 @@ const (
 	colorReset  = "\033[0m"
 	colorGreen  = "\033[32m"
 	colorRed    = "\033[31m"
-	colorYellow = "\033[33m" // Adicionando cor amarela para o log neutro
+	colorYellow = "\033[33m"
 )
 
 type Logger struct {
 	errorLogger   *log.Logger // ❌ Error logger
 	successLogger *log.Logger // ✅ Success logger
 	neutralLogger *log.Logger // ⚪ Neutral logger
-	systemLogger  *log.Logger
-	writer        io.Writer // Writer para o log
+	systemLogger  *log.Logger // ⚪ System logger
+	writer        io.Writer   // Writer para o log
 }
 
 // NewLogger cria uma nova instância de Logger com o prefixo fornecido `p`.
@@ -63,6 +63,7 @@ func (l *Logger) Log(v ...interface{}) {
 	l.neutralLogger.Println(v...)
 }
 
+// System registra uma mensagem neutra ⚪.
 func (l *Logger) System(v ...interface{}) {
 	l.systemLogger.Println(v...)
 }
