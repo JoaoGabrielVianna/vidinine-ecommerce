@@ -10,8 +10,8 @@ import (
 )
 
 var (
-	ErrUserNotFound  = errors.New("usuário não encontrado")
-	ErrWrongPassword = errors.New("senha incorreta")
+	ErrUserNotFound  = errors.New("User not found")
+	ErrWrongPassword = errors.New("Incorrect password")
 )
 
 func Login(email, password string) (string, error) {
@@ -19,22 +19,24 @@ func Login(email, password string) (string, error) {
 
 	if err := config.DB.Where("email = ?", email).First(&user).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			serviceLogger.Error("Usuário não encontrado no banco de dados")
+			serviceLogger.Error("User not found in the database")
 			return "", ErrUserNotFound
 		}
+		serviceLogger.Error("Database error during user lookup:", err)
 		return "", err
 	}
 
 	if !utils.CheckPasswordHash(password, user.Password) {
-		serviceLogger.Error("Senha incorreta fornecida pelo usuário")
+		serviceLogger.Error("Incorrect password provided")
 		return "", ErrWrongPassword
 	}
 
 	token, err := utils.GenerateToken(user.ID, user.Role)
 	if err != nil {
+		serviceLogger.Error("Failed to generate authentication token:", err)
 		return "", err
 	}
 
-	serviceLogger.Success("Login realizado com sucesso")
+	serviceLogger.Success("User authenticated successfully")
 	return token, nil
 }
