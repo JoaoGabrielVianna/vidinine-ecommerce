@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -12,21 +11,23 @@ import (
 func ValidateTokenHandle(c *gin.Context) {
 	authHeader := c.GetHeader("Authorization")
 	if authHeader == "" || !strings.HasPrefix(authHeader, "Bearer") {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Token de autorização não fornecido ou formato inválido"})
+		controllerLogger.Error("Token autorization not provided or invalid format")
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Token not provided or invalid format"})
 		return
 	}
 
 	tokenString := strings.TrimSpace(strings.TrimPrefix(authHeader, "Bearer"))
 
-	fmt.Println("Token Recebido: ", tokenString)
 	claims, err := utils.ParseToken(tokenString)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Token inválido ou expirado"})
+		controllerLogger.Error("Failed to parse token: " + err.Error())
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token or expired"})
 		return
 	}
 
+	controllerLogger.Successf("Token is valid for user ID: %d", claims.UserID)
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Token válido",
+		"message": "Token is valid",
 		"user-id": claims.UserID,
 		"role":    claims.Role,
 	})
