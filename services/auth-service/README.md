@@ -4,54 +4,25 @@ Este serviço é responsável por autenticação e autorização de usuários vi
 
 ## 📋 Funcionalidades
 
-- Registro e login de usuários
-- Geração e validação de tokens JWT
-- Middleware para verificação de autorização
+- Registro de usuários (signup).
+- Login (com JWT).
+- Recuperação de senha.
+- Verificação de e-mail.
+- Refresh de tokens.
+- Middleware de validação de token para outros serviços.
+- Roles e permissões (ex: admin, cliente).
 
-## 📈 Diagrama de Arquitetura
 
-```mermaid
----
-config:
-  flowchart:
-    curve: linear
----
 
-flowchart TD
-
-    subgraph "🔐 auth-service"
-
-        register[📝 /register]:::route
-        login[🔐 /login]:::route
-        profile[👤 /profile]:::route
-        edit["✏️ /edit/{id}"]:::route
-        delete["🗑️ /delete/{id}"]:::route
-
-        register ==> |✅| db
-        profile ==> |✅| db
-        edit ==> |⛔| db
-        delete ==> |⛔| db
-        login ==> |✅| db
-        login ==> |✅| jwt
-        db[(🗃️ Users DB)]:::db
-        jwt[(🔑 JWT Service)]:::external
-
-    end
-
-    classDef route fill:#1f77b4,stroke:#ffffff,stroke-width:2px,color:#fff;
-    classDef db fill:#343a40,stroke:#ffffff,stroke-width:2px,color:#fff;
-    classDef external fill:#ffc107,stroke:#ffffff,stroke-width:2px,color:#000;
-
-```
 ## Endpoints
 
-| ID | Função               | Método  | Endpoint         | Descrição                                                                 | Requisito                     |
-|----|----------------------|---------|------------------|---------------------------------------------------------------------------|-------------------------------|
-| 1  | 📝 Cadastro          | POST    | `/register`      | Registra um novo usuário no sistema.                                      | ❌ Nenhum                     |
-| 2  | 🔐 Login             | POST    | `/login`         | Realiza o login do usuário e retorna um **token JWT** para autenticação.  | ❌ Nenhum                     |
-| 3  | 👤 Perfil            | GET     | `/profile`       | Retorna as informações do perfil do usuário.                              | ✅ **JWT Token**              |
-| 4  | ✏️ Editar            | POST    | `/update`        | Atualiza os dados de um usuário com base no id fornecido.                 | ✅ **JWT Token**              |
-| 5  | 🗑️ Deletar           | DELETE  | `/delete`        | Remove o usuário identificado pelo id do sistema.                         | ✅ **JWT Token**              |
+| ID | Função               | Método  | Endpoint         | Descrição                                                                 | Requisito                      |
+|----|----------------------|---------|------------------|---------------------------------------------------------------------------|--------------------------------|
+| 1  | 📝 Registro          | POST    | `/register`      | Registra um novo usuário no sistema.                                      | ❌ Nenhum                      |
+| 2  | 🔐 Login             | POST    | `/login`         | Realiza o login do usuário e retorna um **token JWT** para autenticação.  | ❌ Nenhum                      |
+| 3  | 👤 Perfil             | GET     | `/profile`        | Retorna as informações do perfil do usuário.                               | ✅ **JWT Token**               |
+| 4  | ✏️ Editar            | POST    | `/update`        | Atualiza os dados de um usuário com base no id fornecido.                 | ✅ **JWT Token**               |
+| 5  | 🗑️ Deletar           | DELETE  | `/delete`        | Remove o usuário identificado pelo id do sistema.                          | ✅ **JWT Token**               |
 | 6  | 📋 Listar Usuários   | GET     | `/admin/users`   | Retorna uma lista de todos os usuários cadastrados no sistema.            | ✅ **JWT Token + Role: admin** |
 
 ## 🗃️ Tabelas do Banco de Dados
@@ -61,10 +32,10 @@ flowchart TD
 | Campo       | Tipo   | Tags GORM                          | Descrição                     |
 |-------------|--------|------------------------------------|-------------------------------|
 | 🆔 ID       | uint   | `gorm:"primaryKey"`               | Identificador único           |
-| 🕒 CreatedAt| Time   |                                    | Data de criação               |
-| 🕒 UpdatedAt| Time   |                                    | Data de atualização           |
+| 🕒 CreatedAt| Time   |                                   | Data de criação               |
+| 🕒 UpdatedAt| Time   |                                   | Data de atualização           |
 | 🗑️ DeletedAt| Time   | `gorm:"index"`                    | Data de exclusão lógica       |
 | 📝 Name     | string | `gorm:"not null"`                 | Nome do usuário               |
 | 📧 Email    | string | `gorm:"not null;unique"`          | Email do usuário              |
 | 🔒 Password | string | `gorm:"not null;size:255"`        | Senha do usuário              |
-|Role| string|||
+| 🏷️ Role     | string | `gorm:"not null;default:'user'"`  | Papel do usuário no sistema (`user` ou `admin`) |

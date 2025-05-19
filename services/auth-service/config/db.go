@@ -58,8 +58,8 @@ func checkDatabase() {
 			return
 		}
 
-		configLogger.Success("✅ Tabela 'users' criada com sucesso")
+		configLogger.Success("✅ Tabela 'users' criada com sucesso\n")
 	} else {
-		configLogger.Success("✅ Tabela 'users' encontrada e validada")
+		configLogger.Success("✅ Tabela 'users' encontrada e validada\n")
 	}
 }

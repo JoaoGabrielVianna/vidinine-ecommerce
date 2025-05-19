@@ -48,6 +48,6 @@ func LoginHandler(c *gin.Context) {
 
 	controllerLogger.Success("Login realizado com sucesso")
 	c.JSON(http.StatusOK, gin.H{
-		"token": "Bearer " + token,
+		"token": token,
 	})
 }

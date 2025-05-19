@@ -6,8 +6,8 @@ import (
 	"github.com/vidinine-ecommerce/auth-service/middlewares"
 )
 
-func SetupRouter() *gin.Engine {
-	r := gin.Default()
+func SetupRouter(r *gin.Engine) *gin.Engine {
+	r.Use(middlewares.CORSMiddleware())
 
 	api := r.Group("/api/v1")
 	{

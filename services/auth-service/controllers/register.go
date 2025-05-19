@@ -43,7 +43,7 @@ func RegisterHandler(c *gin.Context) {
 			"created_at": user.CreatedAt,
 			"role":       user.Role,
 		},
-		"token": "Bearer " + token,
+		"token": token,
 	}
 
 	c.JSON(http.StatusCreated, response)
