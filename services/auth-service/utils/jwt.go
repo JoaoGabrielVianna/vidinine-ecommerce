@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"errors"
 	"os"
 	"time"
 
@@ -32,6 +33,10 @@ func GenerateToken(userID uint, role models.Role) (string, error) {
 }
 
 func ParseToken(tokenString string) (*Claims, error) {
+	if tokenString == "" {
+		return nil, errors.New("token is empty")
+	}
+
 	token, err := jwt.ParseWithClaims(tokenString, &Claims{}, func(token *jwt.Token) (interface{}, error) {
 		return JWTSecret, nil
 	})
